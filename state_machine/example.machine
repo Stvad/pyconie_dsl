@@ -1,3 +1,5 @@
+initialState idle
+
 events
     tvOn          TVON
     itIsEvening   EHAC

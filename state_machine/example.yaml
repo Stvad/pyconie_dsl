@@ -1,3 +1,4 @@
+initial_state: idle
 events:
   -
     name: tvOn
