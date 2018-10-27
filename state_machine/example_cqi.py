@@ -1,4 +1,4 @@
-from state_machine_model import State, Event, Action, Transition, StateMachine
+from .model import State, Event, Action, Transition, StateMachine
 
 tv_on = Event('tvOn', 'TVON')
 couch_active = Event('couchActive', 'COAC')

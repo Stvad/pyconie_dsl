@@ -1,0 +1,38 @@
+events
+    tvOn          TVON
+    itIsEvening   EHAC
+    couchActive   COAC
+    newDay        NEDY
+end
+
+resetEvents
+    newDay
+end
+
+commands
+    turnOffTV     TTOF
+    orderPizza    OPZZ
+end
+
+state idle
+    actions {turnOffTV}
+    itIsEvening => active
+end
+
+state active
+    tvOn => waitingForCouch
+    couchActive => waitingForTV
+end
+
+state waitingForCouch
+  couchActive => pizzaIsComing
+end
+
+state waitingForTV
+    tvOn => pizzaIsComing
+end
+
+state pizzaIsComing
+    actions {orderPizza}
+    newDay => idle
+end
