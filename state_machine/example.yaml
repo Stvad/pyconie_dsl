@@ -1,0 +1,58 @@
+events:
+  -
+    name: tvOn
+    code: TVON
+  -
+    name: itIsEvening
+    code: EHAC
+  -
+    name: couchActive
+    code: COAC
+  -
+    name: newDay
+    code: NEDY
+
+resetEvents:
+  - newDay
+
+commands:
+  -
+    name: turnOffTV
+    code: TTOF
+  -
+    name: orderPizza
+    code: OPZZ
+
+states:
+  -
+    name: idle
+    actions:
+      - turnOffTV
+    transitions:
+      -
+        trigger: itIsEvening
+        target: active
+  - name: active
+      transitions:
+      -
+        trigger: couchActive
+        target: waitingForTV
+      -
+        trigger: tvOn
+        target: waitingForCouch
+  -
+    name: waitingForCouch
+    transitions:
+      -
+        trigger: couchActive
+        target: pizzaIsComing
+  -
+    name: waitingForTV
+    transitions:
+      -
+        trigger: tvOn
+        target: pizzaIsComing
+  -
+    name: pizzaIsComing
+    actions:
+      - orderPizza
