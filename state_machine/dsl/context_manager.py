@@ -4,112 +4,90 @@ from contextlib import contextmanager
 from dataclasses import dataclass, field
 from typing import List, Dict, Set
 
-from state_machine.model import Event, Action, State, Transition
-
-
-@contextmanager
-def events():
-    keys = set(globals().keys())
-    try:
-        yield
-    finally:
-        print(globals().keys() - keys)
-        defined = globals().keys() - keys
-
-        for name in defined:
-            globals()[name] = Event(name, globals()[name])
-
+from state_machine.dsl.utils import iterable_of
+from state_machine.model import Event, Action, State
 
 
 @dataclass
-class EventsContext:
+class NewEntriesContext:
     module_dict: Dict
+    action: function
     key_snapshot: Set = None
 
     def __enter__(self):
         self.key_snapshot = set(self.module_dict.keys())
-        print(self.module_dict)
 
     def __exit__(self, *args):
         defined = self.module_dict.keys() - self.key_snapshot
         print(defined)
-        print(self.module_dict)
-
-        for name in defined:
-            self.module_dict[name] = Event(name, self.module_dict[name])
-
-def events():
-    keys = set(globals().keys())
-    try:
-        yield
-    finally:
-        print(globals().keys() - keys)
-        defined = globals().keys() - keys
-
-        for name in defined:
-            globals()[name] = Event(name, globals()[name])
-
-        # todo add to some container?
+        self.action(self.module_dict, defined)
 
 
-@contextmanager
-def commands():
-    # print(globals())
-    keys = set(globals().keys())
-    try:
-        yield 5
-    finally:
-        print(globals().keys() - keys)
-        defined = globals().keys() - keys
+def creation_context(module_dict, creator, container):
+    def create_things(processed_dict, names):
+        for name in names:
+            created = creator(name, processed_dict[name])
+            container.append(created)
+            processed_dict[name] = created
 
-        for name in defined:
-            globals()[name] = Action(name, globals()[name])
+    return NewEntriesContext(module_dict, create_things)
 
 
-@contextmanager
-def state(state_name, initial=False):
-    result = State(state_name)
-    globals()[state_name] = result
-
-    stored_actions = globals().get('actions')
-    globals()['actions'] = result.add_actions
-
-    stored_transitions = globals().get('transitions')
-    transition_generator = TransitionGenerator(result)
-    globals()['transitions'] = transition_generator
-    try:
-        yield result
-    finally:
-        result.transitions = transition_generator.transition_stubs
-
-        globals()['actions'] = stored_actions
-        globals()['transitions'] = stored_transitions
-        print(result)
+def events_context(module_dict):
+    container = []
+    return creation_context(module_dict, Event, container), container
 
 
-def initial_state(state_name):
-    return state(state_name, True)
+def actions_context(module_dict):
+    container = []
+    return creation_context(module_dict, Action, container), container
+
+
+def create_state_context(module_dict, state_container, transition_container: List):
+    @contextmanager
+    def state_context(state_name):
+        result = State(state_name)
+        state_container[state_name] = result
+
+        stored_actions = module_dict.get('actions')
+        module_dict['actions'] = result.add_actions
+
+        stored_transitions = module_dict.get('transitions')
+        transition_generator = TransitionGenerator(result)
+        module_dict['transitions'] = transition_generator
+        try:
+            yield result
+        finally:
+            transition_container.extend(transition_generator.transition_stubs)
+
+            module_dict['actions'] = stored_actions
+            module_dict['transitions'] = stored_transitions
+
+    return state_context
+
+
+@dataclass
+class TransitionStub:
+    initial_state: State
+    trigger: Event
+    target_name: str
 
 
 @dataclass
 class TransitionGenerator:
     initial_state: State
-    transition_stubs: List[Transition] = field(default_factory=list)
+    transition_stubs: List[TransitionStub] = field(default_factory=list)
 
     def __getitem__(self, transition_slices: List[slice]):
-        for transition in transition_slices:
+        for transition in iterable_of(transition_slices):
             self.transition_stubs.append(
-                Transition(self.initial_state, None, transition.start))  # todo need to init transitions later?
+                TransitionStub(self.initial_state, transition.start,
+                               transition.stop))
 
 
-def reset_events(*args):
-    pass
+def define_reset_events(container):
+    def reset_events(*args):
+        for event in args:
+            container.append(event)
 
-
-# Dummies to help with syntax/completion/etc
-
-transitions = []
-
-
-def actions(*args):
-    pass
+    return reset_events
