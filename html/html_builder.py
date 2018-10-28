@@ -1,37 +1,19 @@
-from contextlib import contextmanager
+from __future__ import annotations
+
 from dataclasses import dataclass, field
 from pathlib import Path
-from types import MethodType
-from typing import List
-
-
-def create_html_element_function(element_name):
-    @contextmanager
-    def element_function(builder, **kwargs):
-        params = [f"{key}={str(value)}" for key, value in kwargs.items()]
-        builder.build_context.append(f"<{' '.join([element_name] + params)}>")
-        try:
-            yield None
-        finally:
-            builder.build_context.append(f"</{element_name}>")
-
-    return element_function
+from typing import List, Dict
 
 
 @dataclass
 class HtmlBuilder:
+    element_name: str = 'html'
     build_context: List = field(default_factory=list)
-
-    @contextmanager
-    def body(self):
-        self.build_context.append("<body>")
-        try:
-            yield
-        finally:
-            self.build_context.append("</body>")
+    parent: HtmlBuilder = None
+    params: Dict = field(default_factory=dict)
 
     def __getattr__(self, item):
-        return MethodType(create_html_element_function(item), self)
+        return HtmlBuilder(item, self.build_context)
 
     def __add__(self, other):
         self.build_context.append(str(other))
@@ -39,18 +21,34 @@ class HtmlBuilder:
     def __repr__(self):
         return "\n".join(self.build_context)
 
+    def __enter__(self, **kwargs):
+        self.build_context.append(f"<{' '.join([self.element_name] + self.param_string())}>")
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.build_context.append(f"</{self.element_name}>")
+        if self.parent:
+            self.parent.build_context.extend(self.build_context)
+
+    def param_string(self):
+        return [f"{key}={str(value)}" for key, value in self.params.items()]
+
+    def __call__(self, **kwargs):
+        self.params = kwargs
+        return self
+
 
 h = HtmlBuilder()
 
-with h.html():
-    with h.body():
-        for i in range(5):
-            with h.h1():
-                h + "Hello PyCon!"
-            with h.h3():
-                h + "Hello PyCon!"
+with h.body:
+    for i in range(5):
+        with h.h1:
+            h + "Hello PyCon!"
+        with h.h3():
+            h + "Hello PyCon!"
 
-        with h.img(src="/Users/sitalov/Dropbox/SoftwareEngineering/Experiments/Python/dsl/pyconie/media/python.gif"):
-            h + "whee!"
+    with h.img(src="/Users/sitalov/Dropbox/SoftwareEngineering/Experiments/Python/dsl/pyconie/media/python.gif"):
+        h + "whee!"
 
 Path('/tmp/pycon.html').write_text(str(h))
+
+print(str(h))
