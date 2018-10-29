@@ -5,8 +5,8 @@ from dataclasses import dataclass, field
 
 @dataclass(frozen=True)
 class Message:
-    name: str
-    code: str
+    name: str = ""
+    code: str = ""
 
 
 class Event(Message):
