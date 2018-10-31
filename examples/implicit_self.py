@@ -18,9 +18,11 @@ def in_context(context_object):
     # horrible things, I know :p
 
     locals_snapshot = caller_locals.copy()
-    for field in dir(context_object):
-        if is_public(field):
-            caller_locals[field] = getattr(context_object, field)
+    caller_locals.update({field: getattr(context_object, field)
+                          for field in dir(context_object)
+                          if is_public(field)})
+
+    caller_locals['this'] = context_object
     try:
         yield
     finally:
@@ -28,13 +30,13 @@ def in_context(context_object):
         caller_locals.update(locals_snapshot)
 
 
-test_list = []
-with in_context(test_list):
-    append(3)
-    extend([1, 7, 2])
-    sort()
+test_dict = {}
+with in_context(test_dict):
+    this['is'] = 'very'
+    update({'useful': 'example', 'idict': {}})
 
-# todo hierarchical example?
-# add 'why' to techniques I'm describing
+    with in_context(this['idict']):
+        update({'internal': 'stuff'})
 
-print(test_list)
+print(test_dict)
+
