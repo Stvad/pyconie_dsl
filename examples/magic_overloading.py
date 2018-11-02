@@ -22,7 +22,7 @@ def coordinate_max(p1, p2):
 
 
 @dataclass
-class AsciiCanvas:
+class CharacterCanvas:
     symbol: str = '*'
     filler: str = ' '
     position: Point = Point()
@@ -80,7 +80,7 @@ class AsciiCanvas:
         self.symbol = self.symbol_stack.pop()
 
 
-p = AsciiCanvas('🙂', '  ')
+p = CharacterCanvas('🙂', '  ')
 
 letter_height = 21
 letter_width = letter_height / 2
