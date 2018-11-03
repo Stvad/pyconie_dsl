@@ -1,2 +1,79 @@
-# pyconie_dsl
-Materials/examples for the PyconIE 2018 talk: Domain specific languages in Python. Why and How
+# Domain specific languages in Python. The Why and How. 
+
+    🙂                  🙂          🙂🙂🙂😛🙂🙂
+    🙂                  🙂                😛
+    🙂                  🙂                😛
+    🙂                  🙂                😛
+    🙂                  🙂                😛
+    🙂                  🙂                😛
+    🙂                  🙂                😛
+    🙂                  🙂                😛
+    🙂                  🙂                😛
+    🙂                  🙂                😛
+    🙂                  🙂                😛
+    🦄🦄🦄🦄🦄🦄🦄🦄🦄🙂                😛
+    🙂                  🙂                😛
+    🙂                  🙂                😛
+    🙂                  🙂                😛
+    🙂                  🙂                😛
+    🙂                  🙂                😛
+    🙂                  🙂                😛
+    🙂                  🙂                😛
+    🙂                  🙂                😛
+    🙂                  🙂                😛
+    🙂                  🙂           🙂🙂🙂🙂🙂🙂
+
+> created via [Character Canvas DSL](examples/magic_overloading.py)
+
+---
+
+This repo contains materials and examples for the PyconIE 2018 talk: **Domain specific languages in Python. The Why and How**
+
+You can find the presentation [here](pycon_ie_presentation.key).
+
+## Examples
+
+1. State Machine/Home automation DSL
+    * [State Machine Model](state_machine/model.py)
+    * Various ways of initializing the state machine:
+        * [Imperative Initialization](state_machine/example_cqi.py)
+        * [YAML DSL](state_machine/example.yaml)
+        * [External DSL](state_machine/example.machine)
+        * [Fluent interface init](state_machine/example_fluid.py)
+        * [Internal DSL](state_machine/example_context_manager.py)
+    * DSL code:
+        * [Fluid interface definition](state_machine/model_fluid.py)
+        * [DSL from the introduction](state_machine/dsl) - combines a variety of techniques.
+1. [Character Canvas/Drawing Board DSL 🦄](examples/magic_overloading.py). Operators/magic method overloading.
+1. HTML
+    * [Simple context manager-based HTML builder](examples/context_manager.py) 
+    * [HTML builder that uses dynamic class property generation](examples/dynamic_generatioin.py)
+    * [A more extensive HTML builder example, that combines a variety of techniques](html/html_builder.py)
+1. Defining global executing context: [runner](examples/global_context_manipulation.py), [dsl-file](examples/global_context_manipulation_dsl.py)
+1. Defining local execution context: [Implicit 'self' emulation](examples/implicit_self.py)
+1. [Elixir-style pipes usage example](examples/elixir_pipes.py). Demonstrates one of the applications of import time AST manipulation.
+
+## References
+
+
+1. [Domain-Specific Languages](https://www.goodreads.com/book/show/8082269) by Martin Fowler
+1. [The library that implements Elixir style pipes](https://github.com/robinhilliard/pipes)
+1. [Macropy](https://macropy3.readthedocs.io/) A framework to help you with import time AST manipulation.
+1. [SSM Document Generator (the accidental DSL)](https://github.com/awslabs/aws-systems-manager-document-generator)
+1. DSLs mentioned in the talk:
+    * [GraphViz](https://www.graphviz.org/)
+    * [Scons](https://scons.org/)
+    * [Rake](https://github.com/ruby/rake)
+    * [Attrs](https://attrs.org/)
+    * [ANTLR](https://antlr.org/)
+    * CSS
+    
+1. Various other resources I found useful while doing research for the talk:
+    * https://orbifold.xyz/python-dsl.html
+    * https://nvbn.github.io/2015/04/04/python-html-dsl/
+    * https://rszalski.github.io/magicmethods   
+    
+---
+
+![Python is Dynamic!](media/python.gif)
+
