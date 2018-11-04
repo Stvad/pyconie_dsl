@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from uuid import uuid4
 
 from state_machine.model import State, Event, Transition, StateMachine
 
@@ -28,8 +29,8 @@ class TransitionBuilder:
         return self.state_builder
 
 
-def state(state_name):
-    return StateBuilder(State(state_name))
+def state(name=None, actions=None):
+    return StateBuilder(State(name=name or uuid4(), actions=actions or []))
 
 
 def state_machine(*, initial_state: StateBuilder, reset_events):
