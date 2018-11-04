@@ -17,6 +17,7 @@ class XmlBuilder:
 
 t = XmlBuilder()
 
-with t.body:
-    with t.h1:
-        print("Whee")
+with t:
+    with t.body:
+        with t.h1:
+            print("Whee")
