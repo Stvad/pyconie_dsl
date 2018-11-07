@@ -33,7 +33,7 @@ You can find the presentation [here](pycon_ie_presentation.key).
 
 ## Examples
 
-1. State Machine/Home automation DSL
+1. State Machine/Home automation DSL. The example is inspired by the "Gothic security system" from [DSL book by Martin Fowler](#references) 
     * [State Machine Model](state_machine/model.py)
     * Various ways of initializing the state machine:
         * [Imperative Initialization](state_machine/example_cqi.py)
@@ -44,11 +44,11 @@ You can find the presentation [here](pycon_ie_presentation.key).
     * DSL code:
         * [Fluid interface definition](state_machine/model_fluid.py)
         * [DSL from the introduction](state_machine/dsl) - combines a variety of techniques.
-1. [Character Canvas/Drawing Board DSL 🦄](examples/magic_overloading.py). Operators/magic method overloading.
+1. [Character Canvas/Drawing Board/Turtle DSL 🦄](examples/magic_overloading.py). An example DSL to demonstrate the utility of operators/magic method overloading.
 1. HTML
     * [Simple context manager-based HTML builder](examples/context_manager.py) 
     * [HTML builder that uses dynamic class property generation](examples/dynamic_generatioin.py)
-    * [A more extensive HTML builder example, that combines a variety of techniques](html/html_builder.py)
+    * [A more extensive HTML builder DSL example, that combines a variety of techniques](html/html_builder.py)
 1. Defining global executing context: [runner](examples/global_context_manipulation.py), [dsl-file](examples/global_context_manipulation_dsl.py)
 1. Defining local execution context: [Implicit 'self' emulation](examples/implicit_self.py)
 1. [Elixir-style pipes usage example](examples/elixir_pipes.py). Demonstrates one of the applications of import time AST manipulation.
@@ -61,17 +61,19 @@ You can find the presentation [here](pycon_ie_presentation.key).
 1. [Macropy](https://macropy3.readthedocs.io/) A framework to help you with import time AST manipulation.
 1. [SSM Document Generator (the accidental DSL)](https://github.com/awslabs/aws-systems-manager-document-generator)
 1. DSLs mentioned in the talk:
-    * [GraphViz](https://www.graphviz.org/)
-    * [Scons](https://scons.org/)
-    * [Rake](https://github.com/ruby/rake)
     * [Attrs](https://attrs.org/)
     * [ANTLR](https://antlr.org/)
+    * [Scons](https://scons.org/)
+    * [Rake](https://github.com/ruby/rake)
+    * [GraphViz](https://www.graphviz.org/)
+    * RegEx
     * CSS
     
 1. Various other resources I found useful while doing research for the talk:
     * https://orbifold.xyz/python-dsl.html
     * https://nvbn.github.io/2015/04/04/python-html-dsl/
-    * https://rszalski.github.io/magicmethods   
+    * https://rszalski.github.io/magicmethods  
+    * https://play.kotlinlang.org/byExample/09_Kotlin_JS/06_HtmlBuilder
     
 ---
 
