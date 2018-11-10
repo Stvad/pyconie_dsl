@@ -45,6 +45,7 @@ You can find the presentation [here](pycon_ie_presentation.key).
         * [Fluid interface definition](state_machine/model_fluid.py)
         * [DSL from the introduction](state_machine/dsl) - combines a variety of techniques.
 1. [Character Canvas/Drawing Board/Turtle DSL 🦄](examples/magic_overloading.py). An example DSL to demonstrate the utility of operators/magic method overloading.
+1. [Fabric-inspired contexts + dynamic field generation](examples/fabric_contexts.py)
 1. HTML
     * [Simple context manager-based HTML builder](examples/context_manager.py) 
     * [HTML builder that uses dynamic class property generation](examples/dynamic_generatioin.py)
