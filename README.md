@@ -29,8 +29,9 @@
 
 This repo contains materials and examples for the PyconIE 2018 talk: **Domain specific languages in Python. The Why and How**
 
-You can find the presentation [here](pycon_ie_presentation.key).
+You can find the presentation [here](pycon_ie_presentation.key) [pdf version](pycon_ie_presentation.pdf).
 
+Video from the conference was lost to history, but you can listen to [pre-conference recording](media/pre-conference-recording.m4a) & read it's [transcript](media/pre-conference-recording-transcript.txt)
 ## Examples
 
 1. State Machine/Home automation DSL. The example is inspired by the "Gothic security system" from [DSL book by Martin Fowler](#references) 
